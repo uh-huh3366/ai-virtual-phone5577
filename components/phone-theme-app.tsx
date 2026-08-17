@@ -18,7 +18,7 @@ import {
 import CSSSchemeBar from "@/components/ui/css-scheme-picker";
 import { normalizeThemeProfile, resolveActiveIconSkins, DEFAULT_THEME_PROFILE, type ThemeProfile } from "@/lib/theme-types";
 import type { DesktopIconId, IconId } from "@/lib/desktop-config";
-import { DOCK_DEFAULT, PAGE_1_DEFAULT, PAGE_2_DEFAULT, ICONS } from "@/lib/desktop-config";
+import { DOCK_DEFAULT, PAGE_1_DEFAULT, PAGE_2_DEFAULT, PAGE_3_DEFAULT, ICONS } from "@/lib/desktop-config";
 import type { DesktopIconLayout } from "@/lib/desktop-layout-storage";
 import { CUSTOM_APPS_UPDATED_EVENT, loadInstalledCustomApps } from "@/lib/custom-app-storage";
 import { toCustomAppIconId, type InstalledCustomApp } from "@/lib/custom-app-types";
@@ -717,7 +717,7 @@ function PalettePresetPage({
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
   return (
-    <div className="theme-section-page">
+    <div className="theme-section-page" data-bottom-reserve>
       <div className="flex flex-col gap-4">
         <div>
           <div className="grid grid-cols-4 gap-2">
@@ -976,7 +976,9 @@ function GlobalCSSPage({
    Icon Skin Page
    ══════════════════════════════════════════ */
 
-const BUILTIN_ICON_SKIN_IDS: IconId[] = [...PAGE_1_DEFAULT, ...PAGE_2_DEFAULT, ...DOCK_DEFAULT];
+// 三页桌面 + DOCK 的默认图标全收进来。漏了第三页时，筑境/工坊/资源集市/独家特调
+// 这四个图标在外观里根本没有格子，换不了皮肤。
+const BUILTIN_ICON_SKIN_IDS: IconId[] = [...PAGE_1_DEFAULT, ...PAGE_2_DEFAULT, ...PAGE_3_DEFAULT, ...DOCK_DEFAULT];
 
 type IconSkinItem = {
   id: DesktopIconId;
@@ -1162,7 +1164,7 @@ function IconSkinPage({
   }, [activeSkins, draft, onDraftChange, onApply, onNotice]);
 
   return (
-    <div className="theme-section-page" style={{ gap: 14 }}>
+    <div className="theme-section-page" data-bottom-reserve style={{ gap: 14 }}>
       <h3 className="appearance-menu-section-title">Icons</h3>
       <div className="is-grid">
         {iconSkinItems.map(item => {
@@ -1405,7 +1407,7 @@ function WallpaperPage({
   }, [onApply, onDraftChange]);
 
   return (
-    <div className="theme-section-page" style={{ gap: 14 }}>
+    <div className="theme-section-page" data-bottom-reserve style={{ gap: 14 }}>
       {/* Upload button */}
       <div className="flex flex-col items-center justify-center pt-2 pb-4 border-b border-black/5">
         <button
@@ -1600,7 +1602,7 @@ function WidgetManagerPage({
   }, [diyTemplates]);
 
   return (
-    <div className="theme-section-page flex flex-col gap-6" style={{ padding: "16px 20px" }}>
+    <div className="theme-section-page flex flex-col gap-6" data-bottom-reserve style={{ padding: "16px 20px 0" }}>
       
       {/* Studio Header Toggle */}
       <div className="flex flex-col gap-4">

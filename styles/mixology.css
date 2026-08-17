@@ -1179,12 +1179,15 @@
 .mix-prose {
     margin: 14px 0;
     font-size: 14px;
-    line-height: 1.9;
+    /* 段内行距收一点：段内越紧，段间那道空隙越显眼，一眼就能数出几段 */
+    line-height: 1.75;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
+/* 首行缩进两字，书籍排版。场景过场行（.mix-scene）是同级的另一种段，不吃缩进 */
 .mix-para {
-    margin: 0 0 12px;
+    margin: 0 0 15px;
+    text-indent: 2em;
 }
 
 .mix-para:last-child {

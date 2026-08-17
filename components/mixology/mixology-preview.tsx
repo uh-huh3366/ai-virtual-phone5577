@@ -59,8 +59,8 @@ function MixPreviewBody({ target }: { target: MixPreviewTarget }) {
                 <div className="mix-detail-label" style={{ marginTop: 14 }}>可用的官方类名</div>
                 <div className="mix-detail-value" data-code="true">
                     {[
-                        ".mix-prose    正文容器",
-                        ".mix-para     普通段落",
+                        ".mix-prose    正文容器（默认 14px / 行高 1.75）",
+                        ".mix-para     普通段落（默认首行缩进 2em，不想缩写 text-indent: 0）",
                         ".mix-scene    场景过场行（【】）",
                         ".mix-dialogue 对白（「」）",
                         ".mix-thought  心声（* *）",
