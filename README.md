@@ -136,4 +136,4 @@ npm run lint    # 代码检查
 
 ## 备注
 
-`NEXT_PUBLIC_*` 变量会打包进浏览器代码、完全公开。不要把 Supabase `service_role`、后台管理密钥、第三方 API 私钥写进任何 `NEXT_PUBLIC_*` 变量。
+`NEXT_PUBLIC_SELF_HOSTED_MODE*` 变量会打包进浏览器代码、完全公开。不要把 Supabase `service_role`、后台管理密钥、第三方 API 私钥写进任何 `NEXT_PUBLIC_*` 变量。
