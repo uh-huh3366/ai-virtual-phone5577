@@ -1431,6 +1431,14 @@
   pointer-events: none;
 }
 
+/* 内容超出一屏时，flex 会先把子项压扁再让容器滚动。带 overflow:hidden 或
+   aspect-ratio 的块（DOCK 预览槽正是）自动最小高度算作 0，会被一路压成
+   一条线——看着就是「上传槽位不见了」。长内容子页里的东西一律不参与压缩，
+   超出多少就滚多少。同 e33adb6 给设置子页包裹层加 shrink-0 的思路。 */
+.theme-section-page[data-bottom-reserve] > * {
+  flex-shrink: 0;
+}
+
 .wp-sliders {
   display: flex;
   flex-direction: column;
