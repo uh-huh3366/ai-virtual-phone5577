@@ -905,7 +905,15 @@ export function MixologyApp({ onClose }: { onClose: () => void }) {
                                 与应用市场同规矩；正文封存仅角色卡（isSealedMaterial），但操作限制对所有导入件生效 */}
                             {!detail.imported ? (
                                 <>
-                                    <button type="button" className="mix-icon-btn" onClick={() => exportMixMaterial(detail)} aria-label="导出 JSON" title="导出 JSON"><Download size={16} /></button>
+                                    <button
+                                        type="button"
+                                        className="mix-icon-btn"
+                                        onClick={() => { void exportMixMaterial(detail).catch((err) => showToast(err instanceof Error ? err.message : "导出失败")); }}
+                                        aria-label="导出 JSON"
+                                        title="导出 JSON"
+                                    >
+                                        <Download size={16} />
+                                    </button>
                                     <button
                                         type="button"
                                         className="mix-icon-btn"

@@ -2,6 +2,7 @@
 // 独家特调 · 材料的离线搬运：导出成 JSON 文件、从 JSON 文件导入。
 // 官网大厅之外的第二条路——备份、私下发给朋友、跨设备迁移都不用联网。
 
+import { downloadFile } from "@/lib/download-utils";
 import {
     MIX_SLOT_ORDER,
     createMixId,
@@ -178,33 +179,24 @@ async function buildCardImage(card: MixMaterial): Promise<Uint8Array> {
     return new Uint8Array(await blob.arrayBuffer());
 }
 
-/** 导出一件材料为自有格式的 PNG 卡（图即是卡，浏览器直接下载） */
+/**
+ * 导出一件材料为自有格式的 PNG 卡（图即是卡）。
+ * 落盘统一走 downloadFile：iOS 上是系统分享面板，其余平台是普通下载——
+ * 与应用市场、主题包、正则组这些导出保持同一种行为。
+ */
 export async function exportMixMaterialPng(material: MixMaterial): Promise<void> {
     const payload: MixTransferFile = { mark: FILE_MARK, version: FILE_VERSION, material };
     const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
     const png = insertPngTextChunk(await buildCardImage(material), PNG_KEYWORD, base64);
-    const url = URL.createObjectURL(new Blob([png.buffer as ArrayBuffer], { type: "image/png" }));
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${safeFileName(material.name)}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const blob = new Blob([png.buffer as ArrayBuffer], { type: "image/png" });
+    await downloadFile(blob, `${safeFileName(material.name)}.png`);
 }
 
-/** 导出一件材料为 .json 文件（浏览器直接下载） */
-export function exportMixMaterial(material: MixMaterial): void {
+/** 导出一件材料为 .json 文件（同上：iOS 走系统分享） */
+export async function exportMixMaterial(material: MixMaterial): Promise<void> {
     const payload: MixTransferFile = { mark: FILE_MARK, version: FILE_VERSION, material };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${safeFileName(material.name)}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    await downloadFile(blob, `${safeFileName(material.name)}.json`);
 }
 
 function isMixKind(value: unknown): value is MixMaterialKind {

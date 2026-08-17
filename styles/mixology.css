@@ -12,6 +12,16 @@
     --mix-text: #f2f0f7;
     --mix-dim: rgba(242, 240, 247, 0.55);
     --mix-faint: rgba(242, 240, 247, 0.32);
+    /*
+     * 剧情正文三档的颜色（月长石）——只作用于对局正文，界面的按钮/徽章/底色不吃这几个值。
+     *   叙述：近无彩的银灰，占正文八成篇幅，它安静整屏才干净
+     *   对白：月长石蓝 + 字重 500，是玩家眼睛最先找的东西
+     *   强调：淡冰青 + 字重 600，另一个色相；彩度只有 14，主要靠字重被认出来
+     */
+    --mix-prose: #bfbdc4;
+    --mix-prose-rgb: 191, 189, 196;
+    --mix-speech: #c9c6ff;
+    --mix-emphasis: #a8d0d8;
     position: absolute;
     inset: 0;
     display: flex;
@@ -1181,7 +1191,14 @@
     font-size: 14px;
     /* 段内行距收一点：段内越紧，段间那道空隙越显眼，一眼就能数出几段 */
     line-height: 1.75;
+    /* 叙述比界面文字暗一档：界面要一眼看清，长段落要耐读 */
+    color: var(--mix-prose);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* 叙述单独留一条规则：装饰材料要改叙述色时有正经的钩子，不必去动容器 */
+.mix-narration {
+    color: var(--mix-prose);
 }
 
 /* 首行缩进两字，书籍排版。场景过场行（.mix-scene）是同级的另一种段，不吃缩进 */
@@ -1194,17 +1211,21 @@
     margin-bottom: 0;
 }
 
+/* 对白：颜色之外再加半档字重——一屏里最先被扫到的就该是它 */
 .mix-dialogue {
-    color: var(--mix-gold);
+    color: var(--mix-speech);
+    font-weight: 500;
 }
 
 .mix-thought {
     font-style: italic;
-    color: rgba(242, 240, 247, 0.72);
+    color: rgba(var(--mix-prose-rgb), 0.72);
 }
 
+/* 强调：另一个色相 + 更重的字重，跳得起来 */
 .mix-accent {
-    color: var(--mix-violet);
+    color: var(--mix-emphasis);
+    font-weight: 600;
 }
 
 .mix-scene {
